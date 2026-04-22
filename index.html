@@ -3,37 +3,270 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AZANA AI - Real Photo Enhancer</title>
+    <title>AZANA Studio Pro - Smart Photo Enhancer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Poppins', 'sans-serif'], tech: ['Rajdhani', 'sans-serif'] },
-                    colors: { neon: { cyan: '#00f2fe', purple: '#a855f7' }, dark: { 900: '#0a0a0f', 800: '#13131a', 700: '#1c1c26' } }
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        tech: ['Rajdhani', 'sans-serif'],
+                    },
+                    colors: {
+                        neon: { cyan: '#00f2fe', purple: '#a855f7' },
+                        dark: { 900: '#0a0a0f', 800: '#13131a', 700: '#1c1c26' }
+                    }
                 }
             }
         }
     </script>
     <style>
         body { background-color: #0a0a0f; color: #cbd5e1; }
-        .scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: #00f2fe; box-shadow: 0 0 15px #00f2fe, 0 0 30px #00f2fe; animation: scan 2s infinite linear; z-index: 10; display: none; }
+        .scan-line {
+            position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: #00f2fe; box-shadow: 0 0 15px #00f2fe, 0 0 30px #00f2fe;
+            animation: scan 2s infinite linear; z-index: 10; display: none;
+        }
         @keyframes scan { 0% { top: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+        .glass-card { background: rgba(19, 19, 26, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-6 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-dark-800 to-dark-900">
 
+    <!-- Header Area -->
     <header class="text-center w-full max-w-3xl mt-12 mb-10">
         <div class="flex items-center justify-center gap-4 mb-4">
             <div class="w-12 h-12 rounded-xl bg-neon-cyan/10 border border-neon-cyan/50 flex items-center justify-center text-neon-cyan shadow-[0_0_15px_rgba(0,242,254,0.3)]">
-                <i class="fas fa-brain text-2xl"></i>
+                <i class="fas fa-magic text-2xl"></i>
             </div>
-            <h1 class="text-3xl md:text-4xl font-tech font-bold text-white tracking-wider uppercase flex items-center">
-                AZANA <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-purple ml-2">Real AI Enhancer</span>
+            <h1 class="text-3xl md:text-4xl font-tech font-bold text-white tracking-wider uppercase">
+                AZANA <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-purple">Smart Enhancer</span>
             </h1>
+        </div>
+        <p class="text-slate-400 text-sm md:text-base max-w-xl mx-auto">
+            Jernihkan foto buram seketika dengan algoritma Google Gemini AI. Proses otomatis tanpa perlu instruksi tambahan.
+        </p>
+    </header>
+
+    <main class="w-full max-w-4xl glass-card rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden">
+        
+        <!-- Area 1: Upload -->
+        <div id="upload-area" onclick="document.getElementById('file-input').click()" 
+            class="border-2 border-dashed border-dark-600 hover:border-neon-cyan/50 rounded-2xl p-12 text-center transition-all duration-300 bg-dark-900/50 cursor-pointer group">
+            <input type="file" id="file-input" class="hidden" accept="image/png, image/jpeg, image/webp">
+            <div class="w-20 h-20 bg-dark-800 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl text-neon-purple group-hover:text-neon-cyan transition-all shadow-[0_0_20px_rgba(168,85,247,0.2)] group-hover:shadow-[0_0_25px_rgba(0,242,254,0.4)]">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2 font-tech uppercase tracking-wide">Sentuh Untuk Memilih Foto</h3>
+            <p class="text-slate-500 text-sm">Sistem akan mengoptimasi dan menjernihkan foto secara otomatis.</p>
+        </div>
+
+        <!-- Area 2: Processing -->
+        <div id="processing-area" class="hidden flex-col items-center justify-center py-12">
+            <div class="relative w-full max-w-md rounded-xl overflow-hidden border border-neon-cyan/30 shadow-[0_0_30px_rgba(0,242,254,0.1)] mb-8 aspect-square bg-dark-900 flex items-center justify-center">
+                <div class="scan-line" id="scan-effect" style="display:block"></div>
+                <img id="preview-image" src="" class="w-full h-full object-cover opacity-50 blur-[2px]">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="bg-dark-900/80 backdrop-blur px-6 py-3 rounded-full border border-neon-cyan/50 flex flex-col items-center gap-2">
+                        <i class="fas fa-circle-notch fa-spin text-neon-cyan text-2xl"></i>
+                        <span class="font-tech text-white tracking-widest text-sm uppercase" id="status-text">AI Sedang Bekerja...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full max-w-md bg-dark-900 rounded-full h-1.5 mb-2 overflow-hidden border border-dark-700">
+                <div id="progress-bar" class="bg-gradient-to-r from-neon-purple to-neon-cyan h-1.5 rounded-full w-0 transition-all duration-300"></div>
+            </div>
+            <p class="text-slate-500 text-[10px] font-tech tracking-widest uppercase text-center">Mohon jangan tutup halaman ini. <br> Proses memakan waktu sekitar 10-25 detik.</p>
+        </div>
+
+        <!-- Area 3: Results -->
+        <div id="result-area" class="hidden flex-col">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-bold text-white font-tech uppercase"><i class="fas fa-check-circle text-neon-cyan mr-2"></i> Enhancement Selesai</h3>
+                <button onclick="location.reload()" class="text-slate-400 hover:text-white text-xs font-tech tracking-wider uppercase bg-dark-700 hover:bg-dark-600 px-3 py-1.5 rounded border border-dark-500 transition-colors"><i class="fas fa-redo mr-1"></i> Foto Lain</button>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <!-- Original Foto -->
+                <div class="bg-dark-900 p-2 rounded-xl border border-dark-700">
+                    <span class="block text-center text-[10px] text-slate-500 font-tech mb-2 tracking-widest">FOTO ASLI (BURAM)</span>
+                    <div class="w-full h-64 bg-dark-800 rounded-lg overflow-hidden flex items-center justify-center">
+                        <img id="result-original" src="" class="max-w-full max-h-full object-contain">
+                    </div>
+                </div>
+                <!-- AI Output Foto -->
+                <div class="bg-dark-900 p-2 rounded-xl border border-neon-cyan shadow-[0_0_20px_rgba(0,242,254,0.15)] relative">
+                    <span class="block text-center text-[10px] text-neon-cyan font-bold font-tech mb-2 tracking-widest">HASIL AI (JERNIH)</span>
+                    <div class="w-full h-64 bg-dark-800 rounded-lg overflow-hidden flex items-center justify-center">
+                        <img id="result-enhanced" src="" class="max-w-full max-h-full object-contain">
+                    </div>
+                    <div class="absolute bottom-4 right-4 bg-neon-cyan text-dark-900 text-[10px] font-bold px-2 py-1 rounded shadow-lg uppercase">4K HD</div>
+                </div>
+            </div>
+            
+            <div class="flex justify-center">
+                <a id="download-btn" href="#" download="AZANA_Smart_Enhanced.png" class="bg-gradient-to-r from-neon-cyan to-neon-purple text-white font-bold py-3 px-10 rounded-full shadow-[0_0_15px_rgba(0,242,254,0.4)] hover:scale-105 transition-transform flex items-center gap-2">
+                    <i class="fas fa-download"></i> Simpan Gambar HD
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="mt-12 text-slate-600 text-[10px] font-tech tracking-[0.3em] uppercase">
+        Azana Design © 2026 • AI Intelligence Systems
+    </footer>
+
+    <script>
+        // =========================================================================
+        // BOS, GANTI TULISAN DI DALAM TANDA KUTIP INI DENGAN API KEY GOOGLE BOS
+        // =========================================================================
+        const apiKey = "AIzaSyAHqzT20UpRRXY6gnCXASVAwG9R1ZHVUyw";
+        
+        // Prompt rahasia disembunyikan di dalam sistem
+        const AI_PROMPT = `Ultra-high-resolution 4K enhancement based strictly on the provided reference image. Absolute fidelity to original facial anatomy, proportions, and identity. Preserve expression, gaze, pose, camera angle, framing, and perspective with zero deviation. Clothing, hair, skin, and background elements must remain unchanged in structure, placement, and design. Recover fine-grain detail with natural realism. Enhance pores, fine lines, hair strands, eyelashes, fabric weave, seams, and material edges without introducing stylization. Maintain original color science, white balance, and tonal relationships exactly as captured. Lighting direction, intensity, contrast, and shadow behavior must match the source image precisely, with only improved clarity and expanded dynamic range. No relighting, no reshaping. Remove any grain. Apply controlled sharpening and high-frequency detail reconstruction. Remove compression artifacts and noise while retaining authentic texture. No smoothing, no plastic skin, no artificial gloss. Facial features must remain consistent across the entire image with coherent anatomy and clean, stable edges. Negative constraints: no warping, no facial drift, no added or missing anatomy, no altered hands, no distortions, no perspective shift, no text or graphics, no hallucinated detail, no stylized rendering. Output must read as a true-to-life, photorealistic upscale that matches the reference exactly, only clearer, sharper, and higher resolution.`;
+
+        const fileInput = document.getElementById('file-input');
+        const uploadArea = document.getElementById('upload-area');
+        const processingArea = document.getElementById('processing-area');
+        const resultArea = document.getElementById('result-area');
+        const progressBar = document.getElementById('progress-bar');
+        const statusText = document.getElementById('status-text');
+
+        fileInput.addEventListener('change', function(e) {
+            if(apiKey === "ISI_API_KEY_GOOGLE_AI_STUDIO_ANDA_DI_SINI" || apiKey.trim() === "") {
+                alert("Peringatan: API Key belum diisi di dalam kode HTML (Baris 119). Silakan edit file di GitHub dan masukkan API Key Anda.");
+                return;
+            }
+
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = async function(event) {
+                    const originalDataUrl = event.target.result;
+                    // Tampilkan gambar asli di preview
+                    document.getElementById('preview-image').src = originalDataUrl;
+                    
+                    // Transisi UI
+                    uploadArea.classList.add('hidden');
+                    processingArea.classList.remove('hidden');
+                    processingArea.classList.add('flex');
+                    
+                    // Optimasi gambar agar pengiriman kilat & tidak timeout
+                    statusText.innerText = "Mengoptimasi Resolusi...";
+                    const optimizedDataUrl = await optimizeImage(originalDataUrl);
+                    
+                    processWithGemini(optimizedDataUrl, originalDataUrl);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Fungsi pengecil ukuran file agar proses API lancar jaya
+        function optimizeImage(dataUrl, maxSize = 800) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    let width = img.width;
+                    let height = img.height;
+                    if (width > maxSize || height > maxSize) {
+                        if (width > height) { height = Math.round((height * maxSize) / width); width = maxSize; } 
+                        else { width = Math.round((width * maxSize) / height); height = maxSize; }
+                    }
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width; canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    resolve(canvas.toDataURL('image/jpeg', 0.85));
+                };
+                img.onerror = () => resolve(dataUrl);
+                img.src = dataUrl;
+            });
+        }
+
+        async function processWithGemini(optimizedDataUrl, originalDataUrl) {
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                if(progress < 90) { 
+                    progress += 2; 
+                    progressBar.style.width = `${progress}%`;
+                    if (progress > 30) statusText.innerText = "MENGANALISIS PIKSEL...";
+                    if (progress > 60) statusText.innerText = "MENERAPKAN PROMPT 4K...";
+                }
+            }, 400);
+
+            try {
+                const mimeType = optimizedDataUrl.split(',')[0].split(':')[1].split(';')[0];
+                const base64Data = optimizedDataUrl.split(',')[1];
+
+                // Memanggil model Gemini khusus pembuat gambar
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image-preview:generateContent?key=${apiKey}`;
+                
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [
+                                { text: AI_PROMPT },
+                                { inlineData: { mimeType: mimeType, data: base64Data } }
+                            ]
+                        }],
+                        generationConfig: { responseModalities: ["IMAGE"] }
+                    })
+                });
+
+                if (!response.ok) {
+                    const errInfo = await response.json();
+                    throw new Error(errInfo.error?.message || `Server API Error (${response.status})`);
+                }
+
+                const result = await response.json();
+                
+                // Cek blokir keamanan AI
+                if (result.promptFeedback && result.promptFeedback.blockReason) {
+                    throw new Error("Gambar diblokir oleh filter keamanan sistem AI.");
+                }
+
+                // Ekstrak hasil gambar
+                const outBase64 = result.candidates?.[0]?.content?.parts?.find(p => p.inlineData)?.inlineData?.data;
+                if (!outBase64) throw new Error("Gagal menerima hasil gambar dari server AI Google.");
+                
+                const finalImage = `data:image/jpeg;base64,${outBase64}`;
+
+                clearInterval(progressInterval);
+                progressBar.style.width = '100%';
+                statusText.innerText = "FINALIZING...";
+                
+                setTimeout(() => {
+                    processingArea.classList.remove('flex');
+                    processingArea.classList.add('hidden');
+                    
+                    resultArea.classList.remove('hidden');
+                    resultArea.classList.add('flex');
+                    
+                    document.getElementById('result-original').src = originalDataUrl; // Tampilkan yang asli ori
+                    document.getElementById('result-enhanced').src = finalImage;      // Tampilkan hasil AI
+                    document.getElementById('download-btn').href = finalImage;
+                }, 800);
+
+            } catch (error) {
+                console.error("AI Error:", error);
+                clearInterval(progressInterval);
+                alert("Gagal memproses gambar: " + error.message);
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+```
         </div>
         <p class="text-slate-400 text-sm md:text-base">Meningkatkan resolusi foto dengan DeepAI Super Resolution Neural Network.</p>
     </header>
