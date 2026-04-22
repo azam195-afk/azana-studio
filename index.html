@@ -47,7 +47,7 @@
             </h1>
         </div>
         <p class="text-slate-400 text-sm md:text-base max-w-xl mx-auto">
-            Narik metu tekstur foto sing burem ben luwih tajem lan cetha. Proses lokal, tanpa watesan API Key!
+            Narik metu tekstur foto sing burem ben luwih tajem lan cetha. Proses lokal, 40% Balanced Texture.
         </p>
     </header>
 
@@ -62,7 +62,7 @@
                     <i class="fas fa-cloud-upload-alt"></i>
                 </div>
                 <h3 class="text-xl font-bold text-white mb-2 font-tech uppercase tracking-wide">Klik / Seret Fotone Neng Kene</h3>
-                <p class="text-slate-500 text-sm">Sistem bakal mbalekke tekstur sing ilang ben luwih tajem.</p>
+                <p class="text-slate-500 text-sm">Sistem bakal mbalekke tekstur sing ilang ben luwih tajem (Smooth 40%).</p>
             </div>
         </div>
 
@@ -101,16 +101,16 @@
                 </div>
                 <!-- Foto Hasile -->
                 <div class="bg-dark-900 p-2 rounded-xl border border-neon-cyan shadow-[0_0_20px_rgba(0,242,254,0.15)] relative">
-                    <span class="block text-center text-[10px] text-neon-cyan font-bold font-tech mb-2 tracking-widest">HASILE (TEKSTUR HD)</span>
+                    <span class="block text-center text-[10px] text-neon-cyan font-bold font-tech mb-2 tracking-widest">HASILE (TEKSTUR 40%)</span>
                     <div class="w-full h-64 bg-dark-800 rounded-lg overflow-hidden flex items-center justify-center">
                         <img id="result-enhanced" src="" class="max-w-full max-h-full object-contain">
                     </div>
-                    <div class="absolute bottom-4 right-4 bg-neon-cyan text-dark-900 text-[10px] font-bold px-2 py-1 rounded shadow-lg uppercase">TEXTURE RECOVERED</div>
+                    <div class="absolute bottom-4 right-4 bg-neon-cyan text-dark-900 text-[10px] font-bold px-2 py-1 rounded shadow-lg uppercase">SMOOTH HD</div>
                 </div>
             </div>
             
             <div class="flex justify-center">
-                <a id="download-btn" href="#" download="AZANA_HD_Texture.jpg" class="bg-gradient-to-r from-neon-cyan to-neon-purple text-white font-bold py-3 px-10 rounded-full shadow-[0_0_15px_rgba(0,242,254,0.4)] hover:scale-105 transition-transform flex items-center gap-2">
+                <a id="download-btn" href="#" download="AZANA_HD_Smooth_Texture.jpg" class="bg-gradient-to-r from-neon-cyan to-neon-purple text-white font-bold py-3 px-10 rounded-full shadow-[0_0_15px_rgba(0,242,254,0.4)] hover:scale-105 transition-transform flex items-center gap-2">
                     <i class="fas fa-download"></i> Simpen Gambar HD
                 </a>
             </div>
@@ -162,10 +162,6 @@
             if(e.dataTransfer.files.length > 0) tangkepFotone(e.dataTransfer.files[0]);
         });
 
-        // =========================================================================
-        // ALGORITMA UNSHARP MASKING & MICRO CONTRAST (Narik Tekstur)
-        // Iki teknik sing dienggo Photoshop nggoleki lan nambahake tekstur
-        // =========================================================================
         function prosesRecoveryTekstur(dataUrl) {
             let progress = 0;
             const progressInterval = setInterval(() => {
@@ -173,13 +169,12 @@
                     progress += 15; 
                     progressBar.style.width = `${progress}%`;
                     if(progress === 30) statusText.innerText = "NGUKUR KETEBALAN GARIS...";
-                    if(progress === 60) statusText.innerText = "NARIK TEKSTUR SING ILANG...";
+                    if(progress === 60) statusText.innerText = "NARIK TEKSTUR SING ILANG (40%)...";
                 }
             }, 400);
 
             const img = new Image();
             img.onload = () => {
-                // 1. Set Resolusi. Gawe tajem, awak dewe butuh ukuran sing pas (Maksimal 1200px)
                 let w = img.width;
                 let h = img.height;
                 const maxSize = 1200; 
@@ -188,11 +183,11 @@
                     if (w > h) { h = Math.round((h * maxSize) / w); w = maxSize; } 
                     else { w = Math.round((w * maxSize) / h); h = maxSize; }
                 } else {
-                    w = w * 2; // Digedekke ben resolusine dhuwur
+                    w = w * 2; 
                     h = h * 2;
                 }
 
-                // 2. Nggawe Canvas kanggo Foto Asli
+                // Canvas Asli
                 const canvasAsli = document.createElement('canvas');
                 canvasAsli.width = w; canvasAsli.height = h;
                 const ctxAsli = canvasAsli.getContext('2d', { willReadFrequently: true });
@@ -200,42 +195,40 @@
                 ctxAsli.imageSmoothingQuality = 'high';
                 ctxAsli.drawImage(img, 0, 0, w, h);
 
-                // 3. Nggawe Canvas kanggo versi Blur (Hardware Accelerated)
-                // Versi blur iki digunake kanggo misahake tekstur saka werna latar mburine
+                // Canvas Blur
                 const canvasBlur = document.createElement('canvas');
                 canvasBlur.width = w; canvasBlur.height = h;
                 const ctxBlur = canvasBlur.getContext('2d', { willReadFrequently: true });
-                ctxBlur.filter = 'blur(4px)'; // Tingkat Blur kanggo misahake frekuensi
+                // DIUBAH: Radius blur dicilikke dadi 2px ben tekstur sing ketarik luwih alus
+                ctxBlur.filter = 'blur(2px)'; 
                 ctxBlur.drawImage(img, 0, 0, w, h);
 
-                // 4. Proses Ekstraksi Tekstur (Unsharp Masking Algorithm)
                 const dataAsli = ctxAsli.getImageData(0, 0, w, h);
                 const pikselAsli = dataAsli.data;
                 const pikselBlur = ctxBlur.getImageData(0, 0, w, h).data;
                 
-                const kekuatanTekstur = 1.8; // Kekuatan narik tekstur (Makin gede makin tajem/kasar)
+                // =========================================================
+                // DIUBAH: Tekstur dadi 40% (0.4) ben foto ora ketok pecah
+                // =========================================================
+                const kekuatanTekstur = 0.4; 
 
                 for (let i = 0; i < pikselAsli.length; i += 4) {
-                    // Rumus Unsharp Mask: Original + (Original - Blur) * Amount
-                    // Iki sing bakal mbalekke pori-pori utawa tekstur kain sing ketutup burem
                     let r = pikselAsli[i]     + (pikselAsli[i]     - pikselBlur[i])     * kekuatanTekstur;
                     let g = pikselAsli[i + 1] + (pikselAsli[i + 1] - pikselBlur[i + 1]) * kekuatanTekstur;
                     let b = pikselAsli[i + 2] + (pikselAsli[i + 2] - pikselBlur[i + 2]) * kekuatanTekstur;
 
-                    // Nyegah warna dadi ancur (clipping)
                     pikselAsli[i]     = r > 255 ? 255 : (r < 0 ? 0 : r);
                     pikselAsli[i + 1] = g > 255 ? 255 : (g < 0 ? 0 : g);
                     pikselAsli[i + 2] = b > 255 ? 255 : (b < 0 ? 0 : b);
                 }
 
-                // 5. Lebokke tekstur sing wis tajem menyang canvas
                 ctxAsli.putImageData(dataAsli, 0, 0);
 
-                // 6. Finishing (Nambah kontras sitik ben padhang lan mantep)
                 const finalCanvas = document.createElement('canvas');
                 finalCanvas.width = w; finalCanvas.height = h;
                 const ctxFinal = finalCanvas.getContext('2d');
-                ctxFinal.filter = 'contrast(1.05) saturate(1.1)';
+                // Kontras ditambah titik ben wernane tetep seger
+                ctxFinal.filter = 'contrast(1.05) saturate(1.05)';
                 ctxFinal.drawImage(canvasAsli, 0, 0);
 
                 const finalImage = finalCanvas.toDataURL('image/jpeg', 0.95);
