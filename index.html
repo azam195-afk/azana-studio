@@ -37,7 +37,6 @@
 </head>
 <body class="min-h-screen flex flex-col items-center p-6 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-dark-800 to-dark-900">
 
-    <!-- Bagian Ndhuwur (Header) -->
     <header class="text-center w-full max-w-3xl mt-12 mb-10">
         <div class="flex items-center justify-center gap-4 mb-4">
             <div class="w-12 h-12 rounded-xl bg-neon-cyan/10 border border-neon-cyan/50 flex items-center justify-center text-neon-cyan shadow-[0_0_15px_rgba(0,242,254,0.3)]">
@@ -48,14 +47,13 @@
             </h1>
         </div>
         <p class="text-slate-400 text-sm md:text-base max-w-xl mx-auto">
-            Nggenahke foto burem langsung dadi bening nganggo algoritma AI. Otomatis tanpa ribet.
+            Nggenahke foto burem dadi luwih tajem lan cetha. Aman, cepet, lan ora nggawe HP lemot.
         </p>
     </header>
 
     <main class="w-full max-w-4xl glass-card rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden">
         
-        <!-- Papan 1: Nglebokke Foto (Upload) -->
-        <!-- Ditambah pointer-events-none neng njero ben drag-and-drop lancar -->
+        <!-- Papan 1: Nglebokke Foto -->
         <div id="upload-area" onclick="document.getElementById('file-input').click()" 
             class="border-2 border-dashed border-dark-600 hover:border-neon-cyan/50 rounded-2xl p-12 text-center transition-all duration-300 bg-dark-900/50 cursor-pointer group">
             <input type="file" id="file-input" class="hidden" accept="image/png, image/jpeg, image/webp">
@@ -64,11 +62,11 @@
                     <i class="fas fa-cloud-upload-alt"></i>
                 </div>
                 <h3 class="text-xl font-bold text-white mb-2 font-tech uppercase tracking-wide">Klik / Seret Fotone Neng Kene</h3>
-                <p class="text-slate-500 text-sm">Sistem bakal ngapiki foto otomatis (Ukuran paling gede 5MB).</p>
+                <p class="text-slate-500 text-sm">Sistem Smart Sharpen bakal ngapiki foto kanthi otomatis (Tanpa watesan kuota).</p>
             </div>
         </div>
 
-        <!-- Papan 2: Lagi Diproses AI -->
+        <!-- Papan 2: Lagi Diproses -->
         <div id="processing-area" class="hidden flex-col items-center justify-center py-12">
             <div class="relative w-full max-w-md rounded-xl overflow-hidden border border-neon-cyan/30 shadow-[0_0_30px_rgba(0,242,254,0.1)] mb-8 aspect-square bg-dark-900 flex items-center justify-center">
                 <div class="scan-line" id="scan-effect" style="display:block"></div>
@@ -76,17 +74,17 @@
                 <div class="absolute inset-0 flex items-center justify-center">
                     <div class="bg-dark-900/80 backdrop-blur px-6 py-3 rounded-full border border-neon-cyan/50 flex flex-col items-center gap-2">
                         <i class="fas fa-circle-notch fa-spin text-neon-cyan text-2xl"></i>
-                        <span class="font-tech text-white tracking-widest text-sm uppercase" id="status-text">AI Nembe Kerjo...</span>
+                        <span class="font-tech text-white tracking-widest text-sm uppercase" id="status-text">Nembe Ngolah Piksel...</span>
                     </div>
                 </div>
             </div>
             <div class="w-full max-w-md bg-dark-900 rounded-full h-1.5 mb-2 overflow-hidden border border-dark-700">
                 <div id="progress-bar" class="bg-gradient-to-r from-neon-purple to-neon-cyan h-1.5 rounded-full w-0 transition-all duration-300"></div>
             </div>
-            <p class="text-slate-500 text-[10px] font-tech tracking-widest uppercase text-center">Ojo ditutup halamane. <br> Ngenteni sedelok udakara 10-20 detik.</p>
+            <p class="text-slate-500 text-[10px] font-tech tracking-widest uppercase text-center">Ngenteni sedelok udakara 5 detik.</p>
         </div>
 
-        <!-- Papan 3: Hasile AI -->
+        <!-- Papan 3: Hasile -->
         <div id="result-area" class="hidden flex-col">
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-xl font-bold text-white font-tech uppercase"><i class="fas fa-check-circle text-neon-cyan mr-2"></i> Sistem Wis Rampung</h3>
@@ -103,7 +101,7 @@
                 </div>
                 <!-- Foto Hasile -->
                 <div class="bg-dark-900 p-2 rounded-xl border border-neon-cyan shadow-[0_0_20px_rgba(0,242,254,0.15)] relative">
-                    <span class="block text-center text-[10px] text-neon-cyan font-bold font-tech mb-2 tracking-widest">HASILE AI (BENING)</span>
+                    <span class="block text-center text-[10px] text-neon-cyan font-bold font-tech mb-2 tracking-widest">HASILE (LUWIH CETA)</span>
                     <div class="w-full h-64 bg-dark-800 rounded-lg overflow-hidden flex items-center justify-center">
                         <img id="result-enhanced" src="" class="max-w-full max-h-full object-contain">
                     </div>
@@ -112,24 +110,15 @@
             </div>
             
             <div class="flex justify-center">
-                <a id="download-btn" href="#" target="_blank" class="bg-gradient-to-r from-neon-cyan to-neon-purple text-white font-bold py-3 px-10 rounded-full shadow-[0_0_15px_rgba(0,242,254,0.4)] hover:scale-105 transition-transform flex items-center gap-2">
-                    <i class="fas fa-external-link-alt"></i> Delok & Simpen Gambar HD
+                <a id="download-btn" href="#" download="AZANA_HD_Result.jpg" class="bg-gradient-to-r from-neon-cyan to-neon-purple text-white font-bold py-3 px-10 rounded-full shadow-[0_0_15px_rgba(0,242,254,0.4)] hover:scale-105 transition-transform flex items-center gap-2">
+                    <i class="fas fa-download"></i> Simpen Gambar HD
                 </a>
             </div>
         </div>
 
     </main>
 
-    <footer class="mt-12 text-slate-600 text-[10px] font-tech tracking-[0.3em] uppercase">
-        Azana Design © 2026 • AI Intelligence Systems
-    </footer>
-
     <script>
-        // =========================================================================
-        // KUNCI API DEEPAI WIS TAK LEBOKKE NENG KENE BOS (Sing saka obrolan mau)
-        // =========================================================================
-        const API_KEY_RAHASIA = "459751b8-a69f-40ee-b2c9-8e142ec348d2";
-
         const fileInput = document.getElementById('file-input');
         const uploadArea = document.getElementById('upload-area');
         const processingArea = document.getElementById('processing-area');
@@ -137,39 +126,29 @@
         const progressBar = document.getElementById('progress-bar');
         const statusText = document.getElementById('status-text');
 
-        // Fungsi gawe nangkep foto (Saka klik utawa drag & drop)
         function tangkepFotone(file) {
             if (!file) return;
 
-            // Watesi ukurane ben server AI ra nolak
-            if (file.size > 5 * 1024 * 1024) {
-                alert("Ukuran fotone paling gede 5MB ya Bos ben cepet lan ra error!");
-                return;
-            }
-
             const reader = new FileReader();
-            reader.onload = async function(event) {
+            reader.onload = function(event) {
                 const originalDataUrl = event.target.result;
                 document.getElementById('preview-image').src = originalDataUrl;
                 
-                // Pindah tampilan layar dadi Loading
                 uploadArea.classList.add('hidden');
                 processingArea.classList.remove('hidden');
                 processingArea.classList.add('flex');
                 
-                prosesNganggoDeepAI(file, originalDataUrl);
+                prosesLokalTajam(originalDataUrl);
             };
             reader.readAsDataURL(file);
         }
 
-        // CARA 1: Nek fotone dipilih seko tombol
         fileInput.addEventListener('change', function(e) {
             if(e.target.files.length > 0) {
                 tangkepFotone(e.target.files[0]);
             }
         });
 
-        // CARA 2: Nek fotone ditarik terus diculke (Drag and Drop)
         uploadArea.addEventListener('dragover', (e) => { 
             e.preventDefault(); 
             uploadArea.classList.add('border-neon-cyan', 'bg-dark-800'); 
@@ -188,42 +167,88 @@
             }
         });
 
-        // Fungsi utama ngolah foto neng Server DeepAI
-        async function prosesNganggoDeepAI(file, originalDataUrl) {
+        // FUNGSI INTI: Rumus Matematika kanggo Nggawe Tajem (Tanpa API, Tanpa Internet)
+        function prosesLokalTajam(dataUrl) {
             let progress = 0;
             const progressInterval = setInterval(() => {
                 if(progress < 90) { 
-                    progress += 2; 
+                    progress += 10; 
                     progressBar.style.width = `${progress}%`;
-                    if (progress > 30) statusText.innerText = "NILITI WUJUD & TEKSTUR...";
-                    if (progress > 60) statusText.innerText = "NDADEKKE RESOLUSI HD...";
+                    if(progress > 40) statusText.innerText = "NGGAMBAR ULANG BEN CETA...";
                 }
             }, 300);
 
-            try {
-                // Mbungkus fotone gawe dikirim
-                const formData = new FormData();
-                formData.append('image', file);
+            const img = new Image();
+            img.onload = () => {
+                // Diwatesi ukurane ben HP ora nge-hang
+                let width = img.width;
+                let height = img.height;
+                const maxSize = 1200; 
 
-                // Ngirim fotone nang server DeepAI
-                const response = await fetch('https://api.deepai.org/api/torch-srgan', {
-                    method: 'POST',
-                    headers: { 'api-key': API_KEY_RAHASIA },
-                    body: formData
-                });
-
-                if (!response.ok) {
-                    throw new Error("Gagal Bos! Server API lagi error utawa kuotane entek.");
+                if (width > maxSize || height > maxSize) {
+                    if (width > height) { height = Math.round((height * maxSize) / width); width = maxSize; } 
+                    else { width = Math.round((width * maxSize) / height); height = maxSize; }
+                } else {
+                    // Nek cilik, digedhekke 2x ben ora pecah
+                    width = width * 2;
+                    height = height * 2;
                 }
 
-                const result = await response.json();
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+
+                // Ngatur resolusi luwih dhuwur sadurunge digambar
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
                 
-                // Entuk Link gambar sing wis dadi HD saka server
-                const finalImage = result.output_url;
+                // Ngatur warna ben luwih urip
+                ctx.filter = 'contrast(1.15) saturate(1.1) brightness(1.05)';
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // PROSES SHARPENING (Matrix Convolution) - Iki sing nggawe bening!
+                const imageData = ctx.getImageData(0, 0, width, height);
+                const data = imageData.data;
+                const w = width;
+                const h = height;
+                
+                // Rumus nglandhepke piksel (Sharpening Kernel)
+                const weights = [ 0, -1,  0,  -1,  5, -1,   0, -1,  0 ];
+                const side = Math.round(Math.sqrt(weights.length));
+                const halfSide = Math.floor(side / 2);
+                const tempData = new Uint8ClampedArray(data);
+
+                for (let y = 0; y < h; y++) {
+                    for (let x = 0; x < w; x++) {
+                        const dstOff = (y * w + x) * 4;
+                        let r = 0, g = 0, b = 0;
+                        for (let cy = 0; cy < side; cy++) {
+                            for (let cx = 0; cx < side; cx++) {
+                                const scy = y + cy - halfSide;
+                                const scx = x + cx - halfSide;
+                                if (scy >= 0 && scy < h && scx >= 0 && scx < w) {
+                                    const srcOff = (scy * w + scx) * 4;
+                                    const wt = weights[cy * side + cx];
+                                    r += tempData[srcOff] * wt;
+                                    g += tempData[srcOff + 1] * wt;
+                                    b += tempData[srcOff + 2] * wt;
+                                }
+                            }
+                        }
+                        data[dstOff] = r;
+                        data[dstOff + 1] = g;
+                        data[dstOff + 2] = b;
+                    }
+                }
+                
+                // Lebokke asile menyang Canvas
+                ctx.putImageData(imageData, 0, 0);
+                const finalImage = canvas.toDataURL('image/jpeg', 0.95);
 
                 clearInterval(progressInterval);
                 progressBar.style.width = '100%';
-                statusText.innerText = "NGGAMBAR HASILE...";
+                statusText.innerText = "RAMPUNG!";
                 
                 setTimeout(() => {
                     processingArea.classList.remove('flex');
@@ -232,17 +257,12 @@
                     resultArea.classList.remove('hidden');
                     resultArea.classList.add('flex');
                     
-                    document.getElementById('result-original').src = originalDataUrl; 
+                    document.getElementById('result-original').src = dataUrl; 
                     document.getElementById('result-enhanced').src = finalImage;      
                     document.getElementById('download-btn').href = finalImage;
-                }, 800);
-
-            } catch (error) {
-                console.error("AI Error:", error);
-                clearInterval(progressInterval);
-                alert("Proses Gagal Bos: " + error.message);
-                location.reload();
-            }
+                }, 500);
+            };
+            img.src = dataUrl;
         }
     </script>
 </body>
