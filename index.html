@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="jv">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,112 +12,130 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        tech: ['Rajdhani', 'sans-serif'],
-                    },
-                    colors: {
-                        neon: { cyan: '#00f2fe', purple: '#a855f7' },
-                        dark: { 900: '#0a0a0f', 800: '#13131a', 700: '#1c1c26' }
-                    }
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'], tech: ['Rajdhani', 'sans-serif'] },
+                    colors: { neon: { cyan: '#00f2fe', purple: '#bc13fe' }, dark: { 950: '#070708', 900: '#0a0a0f', 800: '#13131a', 700: '#1c1c26' } }
                 }
             }
         }
     </script>
     <style>
-        body { background-color: #0a0a0f; color: #cbd5e1; }
+        body { 
+            background-color: #050508; 
+            color: #cbd5e1; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            margin: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background Cyber Matrix Bergerak */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.15;
+            background-image: 
+                linear-gradient(rgba(0, 242, 254, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(188, 19, 254, 0.3) 1px, transparent 1px);
+            background-size: 45px 45px;
+            animation: matrixMove 40s linear infinite;
+        }
+
+        @keyframes matrixMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 450px 450px; }
+        }
+
         .scan-line {
             position: absolute; top: 0; left: 0; width: 100%; height: 4px;
             background: #00f2fe; box-shadow: 0 0 15px #00f2fe, 0 0 30px #00f2fe;
             animation: scan 2s infinite linear; z-index: 10; display: none;
         }
         @keyframes scan { 0% { top: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
-        .glass-card { background: rgba(19, 19, 26, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
+        .glass-card { background: rgba(10, 10, 15, 0.75); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); }
+        .safe-italic { padding-right: 0.3em; display: inline-block; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center p-6 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-dark-800 to-dark-900">
+<body class="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-dark-800 to-dark-900">
 
-    <header class="text-center w-full max-w-3xl mt-12 mb-10">
-        <div class="flex items-center justify-center gap-4 mb-4">
-            <div class="w-12 h-12 rounded-xl bg-neon-cyan/10 border border-neon-cyan/50 flex items-center justify-center text-neon-cyan shadow-[0_0_15px_rgba(0,242,254,0.3)]">
-                <i class="fas fa-layer-group text-2xl"></i>
-            </div>
-            <h1 class="text-3xl md:text-4xl font-tech font-bold text-white tracking-wider uppercase">
-                AZANA <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-purple">Texture Pro</span>
-            </h1>
-        </div>
-        <p class="text-slate-400 text-sm md:text-base max-w-xl mx-auto">
-            Narik metu tekstur foto sing burem ben luwih tajem lan cetha. Proses lokal, 40% Balanced Texture.
-        </p>
-    </header>
-
-    <main class="w-full max-w-4xl glass-card rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden">
+    <div class="flex-grow flex flex-col items-center p-6 w-full relative z-10">
         
-        <!-- Papan 1: Nglebokke Foto -->
-        <div id="upload-area" onclick="document.getElementById('file-input').click()" 
-            class="border-2 border-dashed border-dark-600 hover:border-neon-cyan/50 rounded-2xl p-12 text-center transition-all duration-300 bg-dark-900/50 cursor-pointer group">
-            <input type="file" id="file-input" class="hidden" accept="image/png, image/jpeg, image/webp">
-            <div class="pointer-events-none">
-                <div class="w-20 h-20 bg-dark-800 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl text-neon-purple group-hover:text-neon-cyan transition-all shadow-[0_0_20px_rgba(168,85,247,0.2)] group-hover:shadow-[0_0_25px_rgba(0,242,254,0.4)]">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                </div>
-                <h3 class="text-xl font-bold text-white mb-2 font-tech uppercase tracking-wide">Klik / Seret Fotone Neng Kene</h3>
-                <p class="text-slate-500 text-sm">Sistem bakal mbalekke tekstur sing ilang ben luwih tajem (Smooth 40%).</p>
+        <header class="text-center w-full max-w-3xl mt-12 mb-8 flex flex-col items-center">
+            <div class="w-14 h-14 rounded-2xl bg-dark-800 border border-neon-cyan/30 flex items-center justify-center text-neon-cyan shadow-[0_0_20px_rgba(0,242,254,0.2)] mb-2">
+                <i class="fas fa-layer-group text-3xl"></i>
             </div>
-        </div>
+            <h1 class="text-3xl md:text-5xl font-tech font-bold text-white tracking-widest uppercase italic leading-tight">
+                AZANA <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-purple safe-italic">TEXTURE PRO</span>
+            </h1>
+            <p class="text-slate-400 text-xs md:text-sm max-w-xl mx-auto mt-4 opacity-80 uppercase tracking-widest font-tech text-center">
+                Kembalikan tekstur foto yang buram agar lebih tajam dan jelas. Proses lokal, 50% Balanced Texture.
+            </p>
+        </header>
 
-        <!-- Papan 2: Lagi Diproses -->
-        <div id="processing-area" class="hidden flex-col items-center justify-center py-12">
-            <div class="relative w-full max-w-md rounded-xl overflow-hidden border border-neon-cyan/30 shadow-[0_0_30px_rgba(0,242,254,0.1)] mb-8 aspect-square bg-dark-900 flex items-center justify-center">
-                <div class="scan-line" id="scan-effect" style="display:block"></div>
-                <img id="preview-image" src="" class="w-full h-full object-cover opacity-50 blur-[2px]">
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="bg-dark-900/80 backdrop-blur px-6 py-3 rounded-full border border-neon-cyan/50 flex flex-col items-center gap-2">
-                        <i class="fas fa-circle-notch fa-spin text-neon-cyan text-2xl"></i>
-                        <span class="font-tech text-white tracking-widest text-sm uppercase" id="status-text">Nembe Ngolah Tekstur...</span>
+        <main class="w-full max-w-4xl glass-card rounded-[2.5rem] p-6 md:p-10 shadow-2xl relative overflow-hidden">
+            <div id="upload-area" onclick="document.getElementById('file-input').click()" 
+                class="border-2 border-dashed border-white/5 hover:border-neon-cyan/40 rounded-[2rem] p-12 text-center transition-all duration-500 bg-dark-900/30 cursor-pointer group">
+                <input type="file" id="file-input" class="hidden" accept="image/png, image/jpeg, image/webp">
+                <div class="pointer-events-none">
+                    <div class="w-20 h-20 bg-dark-800 rounded-2xl flex items-center justify-center mx-auto mb-6 text-4xl text-neon-purple group-hover:text-neon-cyan transition-all duration-500 shadow-[0_0_30px_rgba(168,85,247,0.1)] border border-white/5">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2 font-tech uppercase tracking-widest text-center">Klik / Seret Foto Disini</h3>
+                    <p class="text-slate-500 text-sm font-tech tracking-widest text-center">Sistem akan mengembalikan tekstur yang hilang (Smooth 50%).</p>
+                </div>
+            </div>
+
+            <div id="processing-area" class="hidden flex-col items-center justify-center py-12">
+                <div class="relative w-full max-w-md rounded-2xl overflow-hidden border border-white/10 mb-8 aspect-square bg-dark-900 flex items-center justify-center">
+                    <div class="scan-line" id="scan-effect" style="display:block"></div>
+                    <img id="preview-image" src="" class="w-full h-full object-cover opacity-50 blur-[2px]">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="bg-dark-950/90 backdrop-blur-xl px-8 py-4 rounded-2xl border border-neon-cyan/20 flex flex-col items-center gap-2">
+                            <i class="fas fa-circle-notch fa-spin text-neon-cyan text-2xl"></i>
+                            <span class="font-tech text-white tracking-widest text-sm uppercase" id="status-text">MENGOLAH TEKSTUR...</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="w-full max-w-md bg-dark-900 rounded-full h-1.5 mb-2 overflow-hidden border border-dark-700">
-                <div id="progress-bar" class="bg-gradient-to-r from-neon-purple to-neon-cyan h-1.5 rounded-full w-0 transition-all duration-300"></div>
-            </div>
-            <p class="text-slate-500 text-[10px] font-tech tracking-widest uppercase text-center">Ngenteni sedelok udakara 5-10 detik.</p>
-        </div>
-
-        <!-- Papan 3: Hasile -->
-        <div id="result-area" class="hidden flex-col">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-xl font-bold text-white font-tech uppercase"><i class="fas fa-check-circle text-neon-cyan mr-2"></i> Sistem Wis Rampung</h3>
-                <button onclick="location.reload()" class="text-slate-400 hover:text-white text-xs font-tech tracking-wider uppercase bg-dark-700 hover:bg-dark-600 px-3 py-1.5 rounded border border-dark-500 transition-colors"><i class="fas fa-redo mr-1"></i> Foto Liyane</button>
+                <div class="w-full max-w-md bg-dark-800 rounded-full h-1.5 mb-2 overflow-hidden border border-white/5">
+                    <div id="progress-bar" class="bg-gradient-to-r from-neon-purple to-neon-cyan h-full w-0 transition-all duration-300"></div>
+                </div>
+                <p class="text-slate-500 text-[10px] font-tech tracking-widest uppercase text-center">Tunggu sebentar sekitar 5-10 detik.</p>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-6 mb-8">
-                <!-- Foto Asline -->
-                <div class="bg-dark-900 p-2 rounded-xl border border-dark-700">
-                    <span class="block text-center text-[10px] text-slate-500 font-tech mb-2 tracking-widest">FOTO ASLI (BUREM)</span>
-                    <div class="w-full h-64 bg-dark-800 rounded-lg overflow-hidden flex items-center justify-center">
-                        <img id="result-original" src="" class="max-w-full max-h-full object-contain">
+            <div id="result-area" class="hidden flex-col">
+                <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
+                    <h3 class="text-xl font-bold text-white font-tech tracking-widest uppercase italic"><i class="fas fa-check-circle text-neon-cyan mr-3"></i> Proses Selesai</h3>
+                    <button onclick="location.reload()" class="text-slate-400 hover:text-white text-[10px] font-tech tracking-widest uppercase bg-white/5 px-4 py-2 rounded-lg border border-white/10 transition-all">Ganti Foto</button>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-10">
+                    <div class="bg-dark-950 p-2 rounded-2xl border border-white/5">
+                        <span class="block text-center text-[9px] text-slate-600 font-tech mb-2 tracking-widest uppercase text-center">FOTO ASLI (BURAM)</span>
+                        <div class="w-full h-64 bg-dark-900/50 rounded-xl overflow-hidden flex items-center justify-center">
+                            <img id="result-original" src="" class="max-w-full max-h-full object-contain opacity-40">
+                        </div>
+                    </div>
+                    <div class="bg-dark-950 p-2 rounded-2xl border border-neon-cyan/30 relative">
+                        <span class="block text-center text-[9px] text-neon-cyan font-bold font-tech mb-2 tracking-widest uppercase text-center">HASIL (TEKSTUR 50%)</span>
+                        <div class="w-full h-64 rounded-xl overflow-hidden flex items-center justify-center">
+                            <img id="result-enhanced" src="" class="max-w-full max-h-full object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.5)]">
+                        </div>
+                        <div class="absolute bottom-4 right-4 bg-neon-cyan text-dark-950 text-[8px] font-bold px-2 py-0.5 rounded-full uppercase tracking-tighter">HD SMOOTH</div>
                     </div>
                 </div>
-                <!-- Foto Hasile -->
-                <div class="bg-dark-900 p-2 rounded-xl border border-neon-cyan shadow-[0_0_20px_rgba(0,242,254,0.15)] relative">
-                    <span class="block text-center text-[10px] text-neon-cyan font-bold font-tech mb-2 tracking-widest">HASILE (TEKSTUR 40%)</span>
-                    <div class="w-full h-64 bg-dark-800 rounded-lg overflow-hidden flex items-center justify-center">
-                        <img id="result-enhanced" src="" class="max-w-full max-h-full object-contain">
-                    </div>
-                    <div class="absolute bottom-4 right-4 bg-neon-cyan text-dark-900 text-[10px] font-bold px-2 py-1 rounded shadow-lg uppercase">SMOOTH HD</div>
+                
+                <div class="flex justify-center">
+                    <a id="download-btn" href="#" download="AZANA_HD_Smooth_Texture.jpg" class="bg-gradient-to-r from-neon-purple to-neon-cyan text-white font-bold py-4 px-12 rounded-2xl shadow-[0_10px_30px_rgba(188,19,254,0.3)] hover:scale-105 transition-all duration-300 flex items-center gap-3 font-tech tracking-widest text-sm">
+                        <i class="fas fa-download"></i> SIMPAN GAMBAR HD
+                    </a>
                 </div>
             </div>
-            
-            <div class="flex justify-center">
-                <a id="download-btn" href="#" download="AZANA_HD_Smooth_Texture.jpg" class="bg-gradient-to-r from-neon-cyan to-neon-purple text-white font-bold py-3 px-10 rounded-full shadow-[0_0_15px_rgba(0,242,254,0.4)] hover:scale-105 transition-transform flex items-center gap-2">
-                    <i class="fas fa-download"></i> Simpen Gambar HD
-                </a>
-            </div>
-        </div>
+        </main>
+    </div>
 
-    </main>
-    
 <footer class="bg-dark-950 pt-16 pb-8 border-t border-dark-700 mt-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12 text-left">
@@ -162,7 +180,7 @@
         </div>
     </div>
 </footer>
-    
+
     <script>
         const fileInput = document.getElementById('file-input');
         const uploadArea = document.getElementById('upload-area');
@@ -171,80 +189,51 @@
         const progressBar = document.getElementById('progress-bar');
         const statusText = document.getElementById('status-text');
 
-        function tangkepFotone(file) {
+        function tangkepinFoto(file) {
             if (!file) return;
             const reader = new FileReader();
             reader.onload = function(event) {
                 const originalDataUrl = event.target.result;
                 document.getElementById('preview-image').src = originalDataUrl;
-                
                 uploadArea.classList.add('hidden');
                 processingArea.classList.remove('hidden');
                 processingArea.classList.add('flex');
-                
                 prosesRecoveryTekstur(originalDataUrl);
             };
             reader.readAsDataURL(file);
         }
 
-        fileInput.addEventListener('change', function(e) {
-            if(e.target.files.length > 0) tangkepFotone(e.target.files[0]);
-        });
-
-        uploadArea.addEventListener('dragover', (e) => { 
-            e.preventDefault(); 
-            uploadArea.classList.add('border-neon-cyan', 'bg-dark-800'); 
-        });
-
-        uploadArea.addEventListener('dragleave', (e) => { 
-            e.preventDefault(); 
-            uploadArea.classList.remove('border-neon-cyan', 'bg-dark-800'); 
-        });
-
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.classList.remove('border-neon-cyan', 'bg-dark-800');
-            if(e.dataTransfer.files.length > 0) tangkepFotone(e.dataTransfer.files[0]);
-        });
+        fileInput.addEventListener('change', function(e) { if(e.target.files.length > 0) tangkepinFoto(e.target.files[0]); });
 
         function prosesRecoveryTekstur(dataUrl) {
             let progress = 0;
             const progressInterval = setInterval(() => {
                 if(progress < 90) { 
-                    progress += 15; 
+                    progress += 10; 
                     progressBar.style.width = `${progress}%`;
-                    if(progress === 30) statusText.innerText = "NGUKUR KETEBALAN GARIS...";
-                    if(progress === 60) statusText.innerText = "NARIK TEKSTUR SING ILANG (40%)...";
+                    if(progress === 30) statusText.innerText = "MENGANALISA PIKSEL...";
+                    if(progress === 60) statusText.innerText = "RECOVERY TEKSTUR (50%)...";
                 }
             }, 400);
 
             const img = new Image();
             img.onload = () => {
-                let w = img.width;
-                let h = img.height;
+                let w = img.width; let h = img.height;
                 const maxSize = 1200; 
-
                 if (w > maxSize || h > maxSize) {
                     if (w > h) { h = Math.round((h * maxSize) / w); w = maxSize; } 
                     else { w = Math.round((w * maxSize) / h); h = maxSize; }
-                } else {
-                    w = w * 2; 
-                    h = h * 2;
-                }
+                } else { w = w * 2; h = h * 2; }
 
-                // Canvas Asli
                 const canvasAsli = document.createElement('canvas');
                 canvasAsli.width = w; canvasAsli.height = h;
                 const ctxAsli = canvasAsli.getContext('2d', { willReadFrequently: true });
-                ctxAsli.imageSmoothingEnabled = true;
-                ctxAsli.imageSmoothingQuality = 'high';
+                ctxAsli.imageSmoothingEnabled = true; ctxAsli.imageSmoothingQuality = 'high';
                 ctxAsli.drawImage(img, 0, 0, w, h);
 
-                // Canvas Blur
                 const canvasBlur = document.createElement('canvas');
                 canvasBlur.width = w; canvasBlur.height = h;
                 const ctxBlur = canvasBlur.getContext('2d', { willReadFrequently: true });
-                // DIUBAH: Radius blur dicilikke dadi 2px ben tekstur sing ketarik luwih alus
                 ctxBlur.filter = 'blur(2px)'; 
                 ctxBlur.drawImage(img, 0, 0, w, h);
 
@@ -252,43 +241,32 @@
                 const pikselAsli = dataAsli.data;
                 const pikselBlur = ctxBlur.getImageData(0, 0, w, h).data;
                 
-                // =========================================================
-                // DIUBAH: Tekstur dadi 40% (0.4) ben foto ora ketok pecah
-                // =========================================================
-                const kekuatanTekstur = 0.4; 
+                // KEKUATAN TEKSTUR 50%
+                const kekuatanTekstur = 0.5; 
 
                 for (let i = 0; i < pikselAsli.length; i += 4) {
                     let r = pikselAsli[i]     + (pikselAsli[i]     - pikselBlur[i])     * kekuatanTekstur;
                     let g = pikselAsli[i + 1] + (pikselAsli[i + 1] - pikselBlur[i + 1]) * kekuatanTekstur;
                     let b = pikselAsli[i + 2] + (pikselAsli[i + 2] - pikselBlur[i + 2]) * kekuatanTekstur;
-
-                    pikselAsli[i]     = r > 255 ? 255 : (r < 0 ? 0 : r);
+                    pikselAsli[i] = r > 255 ? 255 : (r < 0 ? 0 : r);
                     pikselAsli[i + 1] = g > 255 ? 255 : (g < 0 ? 0 : g);
                     pikselAsli[i + 2] = b > 255 ? 255 : (b < 0 ? 0 : b);
                 }
-
                 ctxAsli.putImageData(dataAsli, 0, 0);
-
                 const finalCanvas = document.createElement('canvas');
                 finalCanvas.width = w; finalCanvas.height = h;
                 const ctxFinal = finalCanvas.getContext('2d');
-                // Kontras ditambah titik ben wernane tetep seger
                 ctxFinal.filter = 'contrast(1.05) saturate(1.05)';
                 ctxFinal.drawImage(canvasAsli, 0, 0);
 
                 const finalImage = finalCanvas.toDataURL('image/jpeg', 0.95);
-
                 clearInterval(progressInterval);
                 progressBar.style.width = '100%';
-                statusText.innerText = "RAMPUNG!";
+                statusText.innerText = "SELESAI!";
                 
                 setTimeout(() => {
-                    processingArea.classList.remove('flex');
-                    processingArea.classList.add('hidden');
-                    
-                    resultArea.classList.remove('hidden');
-                    resultArea.classList.add('flex');
-                    
+                    processingArea.classList.remove('flex'); processingArea.classList.add('hidden');
+                    resultArea.classList.remove('hidden'); resultArea.classList.add('flex');
                     document.getElementById('result-original').src = dataUrl; 
                     document.getElementById('result-enhanced').src = finalImage;      
                     document.getElementById('download-btn').href = finalImage;
